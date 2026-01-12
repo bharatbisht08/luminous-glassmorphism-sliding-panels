@@ -1,0 +1,157 @@
+/* Reset and base styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+main {
+  width: 1080px;
+  height: 1920px;
+  max-width: 100vw;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  perspective: 1500px;
+}
+
+.sliding-panels {
+  position: relative;
+  width: 360px;
+  height: 720px;
+  display: flex;
+  overflow: visible;
+  perspective: 1200px;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.glass-card {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  border-radius: 24px;
+  background: rgba(255 255 255 / 0.15);
+  box-shadow:
+    0 8px 32px 0 rgba(31, 38, 135, 0.37),
+    0 0 20px 5px rgba(255 255 255 / 0.12);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1.5px solid rgba(255 255 255 / 0.25);
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.5s ease, background 0.5s ease;
+  overflow: hidden;
+  outline-offset: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Frosted glow and blur on hover/focus */
+.glass-card:hover,
+.glass-card:focus {
+  background: rgba(255 255 255 / 0.25);
+  box-shadow:
+    0 12px 40px 0 rgba(255 255 255 / 0.55),
+    0 0 48px 18px rgba(255 255 255 / 0.3),
+    0 0 60px 25px rgba(255 255 255 / 0.1);
+  transform: translateZ(40px) scale(1.05) rotateX(7deg) rotateY(3deg);
+  z-index: 10;
+}
+
+/* Cards sliding animation with delay for cascade effect */
+.card1 {
+  animation: slideInFromLeft 1.8s ease forwards;
+  animation-delay: 0.2s;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+}
+.card2 {
+  animation: slideInFromBottom 1.8s ease forwards;
+  animation-delay: 0.5s;
+  box-shadow: 0 8px 32px 0 rgba(135, 31, 38, 0.37);
+}
+.card3 {
+  animation: slideInFromRight 1.8s ease forwards;
+  animation-delay: 0.8s;
+  box-shadow: 0 8px 32px 0 rgba(38, 135, 31, 0.33);
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-180%) translateZ(0) rotateY(-20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateZ(0) rotateY(0);
+  }
+}
+
+@keyframes slideInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(180%) translateZ(0) rotateY(20deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0) translateZ(0) rotateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(180%) translateZ(0) rotateX(15deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) translateZ(0) rotateX(0);
+  }
+}
+
+/* Subtle glowing overlay inside each card to simulate glass edge */
+.glass-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow:
+    inset 0 0 40px 8px rgba(255 255 255 / 0.2),
+    inset 0 0 10px 3px rgba(255 255 255 / 0.3);
+  opacity: 0.7;
+  transition: box-shadow 0.5s ease;
+}
+.glass-card:hover::before,
+.glass-card:focus::before {
+  box-shadow:
+    inset 0 0 60px 18px rgba(255 255 255 / 0.45),
+    inset 0 0 20px 8px rgba(255 255 255 / 0.6);
+  opacity: 1;
+}
+
+/* Accessibility and focus styles for keyboard users */
+.glass-card:focus-visible {
+  outline: 2px solid rgba(255 255 255 / 0.8);
+  outline-offset: 6px;
+}
